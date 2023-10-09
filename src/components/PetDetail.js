@@ -37,7 +37,7 @@ const PetDetail = () => {
 
           <button
             onClick={() => {
-              updatePet(petId, pet.name, pet.type, pet.image, pet.adopted);
+              updatePet(petId, pet.name, pet.type, pet.image);
             }}
             className="w-[70px] border border-black rounded-md  hover:bg-green-400 mb-5"
           >

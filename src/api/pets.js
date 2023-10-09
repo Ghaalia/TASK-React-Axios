@@ -20,7 +20,7 @@ const addPet = async (name, type, image, adopted) => {
   return res.data;
 };
 
-const updatePet = async (petId, name, type, image, adopted) => {
+const updatePet = async (petId, name, type, image) => {
   const res = await instance.put(`/pets/${petId}`, {
     name: name,
     type: type,
