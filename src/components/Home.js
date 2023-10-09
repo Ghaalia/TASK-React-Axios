@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <div className="w-screen h-[100vh] bg-[#F9E3BE] flex flex-col justify-center items-center md:flex-row font-mono">
       <h1 className="text-center text-[60px] ">
-        Welcome to theeeee best pets shop
+        Welcome to the best pets shop in the world.
       </h1>
       <img
         src="https://img.freepik.com/premium-vector/cute-petshop-logo-with-cat-dog_454510-56.jpg"

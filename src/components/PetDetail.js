@@ -1,12 +1,18 @@
-import React from "react";
-import petsData from "../petsData";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { getOnePet } from "../api/pets";
 const PetDetail = () => {
   const { petId } = useParams();
+  const [pet, setPet] = useState();
 
-  const pet = petsData.find((pet) => {
-    return pet.id == petId;
-  });
+  const callAPI = async () => {
+    const res = await getOnePet(petId);
+    setPet(res);
+  };
+
+  useEffect(() => {
+    callAPI();
+  }, []);
 
   if (!pet) {
     return <h1>There is no pet with the id: {petId}</h1>;
