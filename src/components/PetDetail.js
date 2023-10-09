@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getOnePet } from "../api/pets";
+import { getOnePet, updatePet, deletePet } from "../api/pets";
 const PetDetail = () => {
   const { petId } = useParams();
   const [pet, setPet] = useState();
+
+  // const [loading, setLoading] = useState();
 
   const callAPI = async () => {
     const res = await getOnePet(petId);
@@ -33,11 +35,21 @@ const PetDetail = () => {
           <h1>Type: {pet.type}</h1>
           <h1>adopted: {pet.adopted}</h1>
 
-          <button className="w-[70px] border border-black rounded-md  hover:bg-green-400 mb-5">
+          <button
+            onClick={() => {
+              updatePet(petId, pet.name, pet.type, pet.image, pet.adopted);
+            }}
+            className="w-[70px] border border-black rounded-md  hover:bg-green-400 mb-5"
+          >
             Adobt
           </button>
 
-          <button className="w-[70px] border border-black rounded-md  hover:bg-red-400">
+          <button
+            onClick={() => {
+              deletePet(petId);
+            }}
+            className="w-[70px] border border-black rounded-md  hover:bg-red-400"
+          >
             Delete
           </button>
         </div>
