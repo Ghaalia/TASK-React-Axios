@@ -27,7 +27,7 @@ const updatePet = async (petId, name, type, image) => {
     image: image,
     adopted: 1,
   });
-  return res;
+  return res.data;
 };
 
 const deletePet = async (petId) => {
