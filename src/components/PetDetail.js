@@ -1,23 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { getOnePet, updatePet, deletePet } from "../api/pets";
+import { useQuery } from "@tanstack/react-query";
+
 const PetDetail = () => {
   const { petId } = useParams();
-  const [pet, setPet] = useState();
 
-  // const [loading, setLoading] = useState();
+  // const [pet, setPet] = useState({});
 
-  const callAPI = async () => {
-    const res = await getOnePet(petId);
-    setPet(res);
-  };
+  // const callAPI = async () => {
+  //   const res = await getOnePet(petId);
+  //   setPet(res);
+  // };
 
-  useEffect(() => {
-    callAPI();
-  }, []);
+  // useEffect(() => {
+  //   callAPI();
+  // }, []);
+
+  const { data: pet, isLoading } = useQuery({
+    queryKey: ["pet", petId],
+    queryFn: () => getOnePet(petId),
+  });
+
+  if (isLoading) return <h1>Loading ...</h1>;
 
   if (!pet) {
-    return <h1>There is no pet with the id: {petId}</h1>;
+    // return <h1>There is no pet with the id: {petId}</h1>;
+    return <Navigate to="/Error404" />;
   }
 
   return (
