@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Input from "./Input";
 import { addPet } from "../api/pets";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const Modal = ({ show, setShowModal }) => {
   const [name, setName] = useState("");
@@ -8,10 +9,17 @@ const Modal = ({ show, setShowModal }) => {
   const [image, setImage] = useState("");
   const [adopted, setAdopted] = useState(0);
 
-  const handelSubmit = async () => {
-    addPet(name, type, image, adopted);
-    await setShowModal(false);
-  };
+  const queryClient = useQueryClient();
+
+  // mutate is the function that should called to use th useMutation.
+  const { mutate } = useMutation({
+    mutationKey: ["addPet"],
+    mutationFn: () => addPet(name, type, image, adopted),
+    onSuccess: () => {
+      setShowModal(false);
+      queryClient.invalidateQueries(["pets"]); // Do refresh for the query.
+    },
+  });
 
   if (!show) return "";
 
@@ -56,7 +64,7 @@ const Modal = ({ show, setShowModal }) => {
         />
 
         <button
-          onClick={handelSubmit}
+          onClick={() => mutate()}
           className="w-[70px] border border-black rounded-md ml-auto mr-5 hover:bg-green-400"
         >
           Submit

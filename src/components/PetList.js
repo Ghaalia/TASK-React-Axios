@@ -12,21 +12,13 @@ import { useQuery } from "@tanstack/react-query";
 const PetList = () => {
   const [query, setQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
-  // const [pets, setpets] = useState([]);
 
-  // const callAPI = async () => {
-  //   const res = await getAllPets();
-  //   setpets(res);
-  // };
-
-  // useEffect(() => {
-  //   callAPI();
-  // }, []);
-
-  const { data: pets } = useQuery({
+  const { data: pets, isLoading } = useQuery({
     queryKey: ["pets"],
     queryFn: () => getAllPets(),
   });
+
+  if (isLoading) return <h1>Loading ...</h1>;
 
   const petList = pets
     ?.filter((pet) => pet.name.toLowerCase().includes(query.toLowerCase()))

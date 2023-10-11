@@ -12,20 +12,20 @@ const getOnePet = async (petId) => {
 
 const addPet = async (name, type, image, adopted) => {
   const res = await instance.post("/pets", {
-    name: name,
-    type: type,
-    image: image,
-    adopted: adopted,
+    name, // name: name or just write name to create the key and value both have same name.
+    type,
+    image,
+    adopted,
   });
   return res.data;
 };
 
-const updatePet = async (petId, name, type, image) => {
+const updatePet = async (petId, name, type, image, adopted) => {
   const res = await instance.put(`/pets/${petId}`, {
-    name: name,
-    type: type,
-    image: image,
-    adopted: 1,
+    name,
+    type,
+    image,
+    adopted: !adopted, // To change from 1 to 0 and vice versa
   });
   return res.data;
 };

@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { getOnePet, updatePet, deletePet } from "../api/pets";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const PetDetail = () => {
   const { petId } = useParams();
-
-  // const [pet, setPet] = useState({});
-
-  // const callAPI = async () => {
-  //   const res = await getOnePet(petId);
-  //   setPet(res);
-  // };
-
-  // useEffect(() => {
-  //   callAPI();
-  // }, []);
+  const queryClient = useQueryClient();
 
   const { data: pet, isLoading } = useQuery({
     queryKey: ["pet", petId],
     queryFn: () => getOnePet(petId),
+  });
+
+  const { mutate: update } = useMutation({
+    mutationKey: ["updatePet"],
+    mutationFn: () =>
+      updatePet(petId, pet.name, pet.type, pet.image, pet.adopted),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["pet", petId]);
+    },
   });
 
   if (isLoading) return <h1>Loading ...</h1>;
@@ -46,7 +45,7 @@ const PetDetail = () => {
 
           <button
             onClick={() => {
-              updatePet(petId, pet.name, pet.type, pet.image);
+              update();
             }}
             className="w-[70px] border border-black rounded-md  hover:bg-green-400 mb-5"
           >
@@ -55,7 +54,7 @@ const PetDetail = () => {
 
           <button
             onClick={() => {
-              deletePet(petId);
+              // deleteThePet();
             }}
             className="w-[70px] border border-black rounded-md  hover:bg-red-400"
           >

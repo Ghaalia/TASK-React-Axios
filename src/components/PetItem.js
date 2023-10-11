@@ -1,7 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { deletePet } from "../api/pets";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const PetItem = ({ pet }) => {
+  const queryClient = useQueryClient();
+
+  const { mutate: deleteThePet } = useMutation({
+    mutationKey: ["deletePet"],
+    mutationFn: () => deletePet(pet.id),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["pets"]);
+    },
+  });
+
   return (
     <div className="w-[300px] h-[400px]  border border-black rounded-md flex flex-col justify-between items-center p-4">
       <h1 className="text-md font-bold">{pet.name}</h1>
@@ -16,6 +28,15 @@ const PetItem = ({ pet }) => {
           View
         </button>
       </Link>
+
+      <button
+        onClick={() => {
+          deleteThePet();
+        }}
+        className="w-[70px] border border-black rounded-md  hover:bg-red-400"
+      >
+        Delete
+      </button>
     </div>
   );
 };
