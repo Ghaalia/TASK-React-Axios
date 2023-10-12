@@ -33,7 +33,7 @@ const PetItem = ({ pet }) => {
         onClick={() => {
           deleteThePet();
         }}
-        className="w-[70px] border border-black rounded-md  hover:bg-red-400"
+        className=" border border-black px-5 py-1 rounded-md hover:bg-red-400 hover:text-white"
       >
         Delete
       </button>
