@@ -51,15 +51,6 @@ const PetDetail = () => {
           >
             Adobt
           </button>
-
-          <button
-            onClick={() => {
-              // deleteThePet();
-            }}
-            className="w-[70px] border border-black rounded-md  hover:bg-red-400"
-          >
-            Delete
-          </button>
         </div>
       </div>
     </div>
